@@ -1,0 +1,1 @@
+kafka-topics.sh --bootstrap-server kafka:9092 --create --topic twitter-tweets --partitions 3 --replication-factor 1
