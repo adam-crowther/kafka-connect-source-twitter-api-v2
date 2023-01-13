@@ -1,3 +1,3 @@
-kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic twitter-tweets
+kafka-console-consumer --bootstrap-server fast-data-dev:9092 --topic twitter-tweets
 
-kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic twitter-tweets --from-beginning
+#kafka-console-consumer --bootstrap-server fast-data-dev:9092 --topic twitter-tweets --from-beginning
