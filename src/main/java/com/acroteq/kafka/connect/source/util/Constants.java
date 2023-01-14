@@ -29,6 +29,7 @@ package com.acroteq.kafka.connect.source.util;
 import com.acroteq.kafka.connect.source.TwitterV2SourceConnector;
 import java.util.Optional;
 
+/** @author <a href="mailto:github@adamcc.ch">Adam Crowther</a> */
 public final class Constants {
 
     public static final String VERSION = Optional.of(TwitterV2SourceConnector.class)

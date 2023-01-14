@@ -26,6 +26,7 @@
  */
 package com.acroteq.kafka.connect.source.twitter;
 
+/** @author <a href="mailto:github@adamcc.ch">Adam Crowther</a> */
 class TwitterException extends RuntimeException {
 
     TwitterException(final String message) {

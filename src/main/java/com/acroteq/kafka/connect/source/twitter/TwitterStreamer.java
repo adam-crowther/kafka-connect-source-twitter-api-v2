@@ -36,6 +36,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.config.types.Password;
 
+/** @author <a href="mailto:github@adamcc.ch">Adam Crowther</a> */
 @Slf4j
 public class TwitterStreamer {
 

@@ -52,6 +52,7 @@ import org.apache.kafka.common.config.ConfigDef.Range;
 import org.apache.kafka.common.config.ConfigDef.Validator;
 import org.apache.kafka.common.config.types.Password;
 
+/** @author <a href="mailto:github@adamcc.ch">Adam Crowther</a> */
 @Slf4j
 @Getter
 public class TwitterV2SourceConnectorConfig extends AbstractConfig {

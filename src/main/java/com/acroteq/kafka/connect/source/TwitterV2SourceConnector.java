@@ -38,6 +38,7 @@ import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.connect.connector.Task;
 import org.apache.kafka.connect.source.SourceConnector;
 
+/** @author <a href="mailto:github@adamcc.ch">Adam Crowther</a> */
 @Slf4j
 public class TwitterV2SourceConnector extends SourceConnector {
 

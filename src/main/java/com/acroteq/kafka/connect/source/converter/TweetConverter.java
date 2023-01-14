@@ -79,6 +79,7 @@ import org.apache.kafka.connect.data.Struct;
 import org.apache.kafka.connect.data.Timestamp;
 import org.jetbrains.annotations.Nullable;
 
+/** @author <a href="mailto:github@adamcc.ch">Adam Crowther</a> */
 public class TweetConverter {
 
     private final AttachmentsConverter attachmentsConverter = new AttachmentsConverter();

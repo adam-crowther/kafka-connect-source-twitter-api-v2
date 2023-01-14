@@ -46,6 +46,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import org.apache.kafka.common.config.types.Password;
 
+/** @author <a href="mailto:github@adamcc.ch">Adam Crowther</a> */
 @Builder
 @Getter
 public class TwitterConfig {

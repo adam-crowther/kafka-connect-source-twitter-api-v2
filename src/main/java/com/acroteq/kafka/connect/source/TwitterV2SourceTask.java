@@ -44,6 +44,7 @@ import org.apache.kafka.connect.data.Struct;
 import org.apache.kafka.connect.source.SourceRecord;
 import org.apache.kafka.connect.source.SourceTask;
 
+/** @author <a href="mailto:github@adamcc.ch">Adam Crowther</a> */
 @Slf4j
 public class TwitterV2SourceTask extends SourceTask {
 

@@ -37,6 +37,7 @@ import java.util.Set;
 import org.apache.kafka.common.config.types.Password;
 import org.junit.jupiter.api.Test;
 
+/** @author <a href="mailto:github@adamcc.ch">Adam Crowther</a> */
 class TwitterConfigTest {
 
     private static final String PASSWORD = "password";

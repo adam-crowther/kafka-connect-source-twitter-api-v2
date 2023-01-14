@@ -45,6 +45,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/** @author <a href="mailto:github@adamcc.ch">Adam Crowther</a> */
 @Slf4j
 class TwitterStreamerIntegrationTest {
 

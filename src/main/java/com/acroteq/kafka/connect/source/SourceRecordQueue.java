@@ -39,6 +39,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.connect.source.SourceRecord;
 
+/** @author <a href="mailto:github@adamcc.ch">Adam Crowther</a> */
 @RequiredArgsConstructor
 @Slf4j
 class SourceRecordQueue {
