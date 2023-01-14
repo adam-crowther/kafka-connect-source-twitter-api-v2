@@ -74,16 +74,16 @@ tasks.register('copyRuntimeLibs', Copy) {
 
 tasks.register('dist', Zip) {
     dependsOn build
-    from('build/libs') {
+    from("${buildDir}/libs") {
         into 'libs'
     }
-    from('config') {
+    from("${projectDir}/config") {
         into 'config'
     }
-    from('bin') {
+    from("${projectDir}/bin") {
         into 'bin'
     }
-    from('sdk.properties')
+    from("${projectDir}/sdk.properties")
 }
 
 publishing {
