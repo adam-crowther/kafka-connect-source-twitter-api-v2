@@ -56,6 +56,12 @@ test {
     useJUnitPlatform()
 }
 
+tasks.register('copyConfig', Copy) {
+    from "${projectDir}/config"
+    filter { it.replaceAll('@twitterBearerToken@', twitterBearerToken) }
+    into "${buildDir}/config"
+}
+
 tasks.register('copyRuntimeLibs', Copy) {
     from configurations.runtimeClasspath
     {
@@ -100,5 +106,6 @@ publishing {
 }
 
 build {
+    dependsOn copyConfig
     dependsOn copyRuntimeLibs
 }

@@ -1,6 +1,5 @@
 FROM docker.io/landoop/fast-data-dev:3.3.1
 WORKDIR /kafka-connect-source-twitter-api-v2
-COPY config config
 COPY build/libs libs
 COPY bin/start_standalone.sh bin/start_standalone.sh
 COPY bin/consume_topic.sh bin/consume_topic.sh
@@ -8,6 +7,7 @@ COPY bin/create_topic.sh bin/create_topic.sh
 
 COPY sdk.properties .
 
+VOLUME /kafka-connect-source-twitter-api-v2/config
 VOLUME /kafka-connect-source-twitter-api-v2/offsets
 
 RUN apt update

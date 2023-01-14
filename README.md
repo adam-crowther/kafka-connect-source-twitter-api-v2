@@ -38,13 +38,6 @@ V1, and the PR on that project by [Arek Burdach](https://github.com/arkadius), w
 here: https://github.com/jcustenborder/kafka-connect-twitter/pull/35. The V1 API now requires
 "Elevated" access, which unfortunately renders Jeremy's connector obsolete.
 
-The connector is available as a Docker image
-here: https://hub.docker.com/r/adamcc/kafka-connect-source-twitter-api-v2, or using `docker pull`.
-
-```sh
-docker pull adamcc/kafka-connect-source-twitter-api-v2
-```
-
 If you use and like this connector, please consider giving this project a star :smile:.
 
 ### Built With
@@ -65,9 +58,25 @@ If you use and like this connector, please consider giving this project a star :
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Docker Image
 
+For use as in standalone mode, the connector is available as a pre-baked Docker
+image: https://hub.docker.com/r/adamcc/kafka-connect-source-twitter-api-v2
 
-<!-- GETTING STARTED -->
+```sh
+docker pull adamcc/kafka-connect-source-twitter-api-v2
+```
+
+The Docker image does not contain the config files, so you will need to mount a volume containing 2
+files:
+
+* [worker.properties](config/worker.properties)
+* [TwitterApiV2ConnectorSource.properties](config/TwitterApiV2ConnectorSource.properties)
+
+See [cli.sh](bin/cli.sh) for an example how to configure the volume on the command line
+and [docker-compose.yml](docker-compose.yml) for an example using Docker Compose.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Getting Started
 
@@ -103,12 +112,12 @@ class file has wrong version 55.0, should be 52.0
    ```
 2. Update the
    file [TwitterApiV2ConnectorSource.properties](config%2FTwitterApiV2ConnectorSource.properties)
-   with your Twitter bearer token and any other changes you need:
+   with your Twitter bearer token and make any other changes you need:
    ```properties
    name=TwitterV2SourceConnector
    tasks.max=1
    connector.class=com.acroteq.kafka.connect.source.TwitterV2SourceConnector
-   twitter.bearerToken=<REDACTED>
+   twitter.bearerToken=@twitterBearerToken@
    twitter.filterKeywords=java,javascript,typescript,scala,python,ruby,kafka,docker,kubernetes,springboot
    twitter.tweetFields=id,text,author_id,created_at,conversation_id,lang,source
    twitter.retries=10
@@ -156,7 +165,7 @@ class file has wrong version 55.0, should be 52.0
         key.converter.schemas.enable=true
         value.converter=org.apache.kafka.connect.json.JsonConverter
         value.converter.schemas.enable=true
-        twitter.bearerToken=<REDACTED>
+        twitter.bearerToken=@twitterBearerToken@
         twitter.filterKeywords=java,javascript,typescript,scala,python,ruby,kafka,docker,kubernetes,springboot
         twitter.tweetFields=id,text,author_id,created_at,conversation_id,lang,source
         twitter.retries=10

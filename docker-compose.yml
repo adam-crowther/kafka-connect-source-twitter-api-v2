@@ -20,9 +20,8 @@ services:
   kafka-connect-source-twitter-api-v2:
     image: adamcc/kafka-connect-source-twitter-api-v2:0.1
     volumes:
-      - "./config:/kafka-connect-source-twitter-api-v2/config"
-      - "./build/libs:/kafka-connect-source-twitter-api-v2/libs"
-      - "./offsets:/kafka-connect-source-twitter-api-v2/offsets"
+      - ./build/config:/kafka-connect-source-twitter-api-v2/config
+      - ./offsets:/kafka-connect-source-twitter-api-v2/offsets
     depends_on:
       - fast-data-dev
     networks:
