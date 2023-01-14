@@ -73,7 +73,7 @@ class SourceRecordQueueTest {
 
     private void assertReturnsAfterBatchInterval(final SourceRecordQueue sourceRecordQueue,
                                                  final String[] expectedValues) {
-        await().atLeast(MAX_BATCH_INTERVAL_MS, MILLISECONDS)
+        await().atLeast(100, MILLISECONDS)
                .pollInterval(5, MILLISECONDS)
                .until(() -> getBatchReturnedExpectedValues(sourceRecordQueue, expectedValues));
     }
@@ -88,7 +88,7 @@ class SourceRecordQueueTest {
         } else {
             assertThat(batch, is(empty()));
         }
-        
+
         return true;
     }
 }

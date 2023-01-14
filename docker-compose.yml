@@ -2,7 +2,7 @@ version: "2"
 
 services:
   fast-data-dev:
-    image: landoop/fast-data-dev:latest
+    image: landoop/fast-data-dev:3.3.1
     environment:
       ADV_HOST: 127.0.0.1
       RUNTESTS: 0

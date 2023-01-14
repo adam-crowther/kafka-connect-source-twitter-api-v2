@@ -38,7 +38,7 @@ V1, and the PR on that project by [Arek Burdach](https://github.com/arkadius), w
 here: https://github.com/jcustenborder/kafka-connect-twitter/pull/35. The V1 API now requires
 "Elevated" access, which unfortunately renders Jeremy's connector obsolete.
 
-If you use and like the connector, please consider giving this project a star :smile:.
+If you use and like this connector, please consider giving this project a star :smile:.
 
 ### Built With
 
@@ -66,7 +66,7 @@ If you use and like the connector, please consider giving this project a star :s
 
 ### Prerequisites
 
-This was implemented on a Windows 10 machine, with Git Bash Docker installed. The code is Java 11.
+This was implemented in Java 11 on a Windows 10 machine, with Git Bash and Docker installed.
 
 The scripts are run in Git Bash.
 
@@ -74,11 +74,25 @@ You will need an account on
 the [Twitter Developer Portal](https://developer.twitter.com/en/portal/dashboard). [Sign up here](https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api),
 which should give you a "bearer token" for authentication.
 
+Since the connector is implemented in Java 11, your Kafka instance needs to be running on Java 11.
+If you are running Kafka in Docker you will need to use an image that runs it in Java 11. If you
+are running an older version you will see an error similar to this:
+
+```
+java.lang.UnsupportedClassVersionError: Unsupported major.minor version 52.0
+```
+
+or
+
+```
+class file has wrong version 55.0, should be 52.0
+```
+
 ### Installation
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/adam.crowther/kafka-connect-twitter-api-v2.git
+   git clone https://github.com/adam-crowther/kafka-connect-source-twitter-api-v2.git
    ```
 2. Update the
    file [TwitterApiV2ConnectorSource.properties](config%2FTwitterApiV2ConnectorSource.properties)
@@ -92,10 +106,9 @@ which should give you a "bearer token" for authentication.
    twitter.tweetFields=id,text,author_id,created_at,conversation_id,lang,source
    twitter.retries=10
    kafka.tweetsTopic=twitter-tweets
-   kafka.batch.maxsize=10
+   #kafka.tweetsTopic=demo-3-twitter
+   kafka.batch.maxSize=10
    kafka.batch.maxIntervalMs=1000
-   errors.log.include.messages=true
-   errors.log.enable=true
    ```
 3. Build (gradle build, docker build)
    ```sh
@@ -103,8 +116,11 @@ which should give you a "bearer token" for authentication.
    ```
 4. Open a shell and start Kafka
    ```sh
-   docker-compose up zookeeper kafka
+   docker-compose up fast-data-dev
    ```
+   The `fast-data-dev` service in `docker-compose.yaml` maps the `build/libs` folder to the right
+   place in the Docker image for third-party Kafka connectors, so that you can deploy it in
+   distributed mode if you use that container to run Kafka.
 5. Start up a connector container running the bash command line (cli)
    ```sh
    ./bin/cli.sh   
@@ -114,10 +130,35 @@ which should give you a "bearer token" for authentication.
    kafka-topics.sh --bootstrap-server kafka:9092 --create --topic twitter-tweets --partitions 3 --replication-factor 1
    kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic twitter-tweets
    ```
-6. Open another shell and start the connector in standalone mode
-   ```sh
-   ./bin/run.sh
-   ```
+6.
+    1. For standalone mode. <br/>
+       Open another shell and start the connector with this script:
+       ```sh
+       ./bin/run.sh
+       ```
+    2. For distributed mode. <br/>
+       http://localhost:3030/kafka-connect-ui/#/cluster/fast-data-dev
+        * Click "New"
+        * Copy-paste the configuration in
+          the [TwitterApiV2ConnectorSource-distributed.properties](config%2FTwitterApiV2ConnectorSource-distributed.properties):
+       ```properties
+        name=TwitterV2SourceConnector
+        tasks.max=1
+        connector.class=com.acroteq.kafka.connect.source.TwitterV2SourceConnector
+        key.converter=org.apache.kafka.connect.json.JsonConverter
+        key.converter.schemas.enable=true
+        value.converter=org.apache.kafka.connect.json.JsonConverter
+        value.converter.schemas.enable=true
+        twitter.bearerToken=<REDACTED>
+        twitter.filterKeywords=java,javascript,typescript,scala,python,ruby,kafka,docker,kubernetes,springboot
+        twitter.tweetFields=id,text,author_id,created_at,conversation_id,lang,source
+        twitter.retries=10
+        kafka.tweetsTopic=twitter-tweets
+        #kafka.tweetsTopic=demo-3-twitter
+        kafka.batch.maxSize=10
+        kafka.batch.maxIntervalMs=1000
+       ```
+        * Click "Create"
 
 You should see Tweets start streaming in to your topic.
 
@@ -136,14 +177,14 @@ You should see Tweets start streaming in to your topic.
 | twitter.tweetFields       | Comma delimited list of fields that will be returned. The order does not matter.                                                           | list    |                | id, text, author_id, created_at, conversation_id, lang, source                           | high       |
 | twitter.retries           | The number of times to retry when the Twitter API call fails.                                                                              | integer | 10             |                                                                                          | low        |
 | kafka.tweetsTopic         | Kafka topic for output.                                                                                                                    | string  | twitter-tweets |                                                                                          | low        |
-| kafka.batch.maxsize       | The maximum number of records to return in a single batch.                                                                                 | integer | 100            |                                                                                          | low        |
+| kafka.batch.maxSize       | The maximum number of records to return in a single batch.                                                                                 | integer | 100            |                                                                                          | low        |
 | kafka.batch.maxIntervalMs | The maximum interval in milliseconds between batches, if the maximum batch size was not yet reached.                                       | integer | 1000           |                                                                                          | low        |
 
 The Tweet source task publishes to the topic in batches
 
-- if more than `kafka.batch.maxsize` tweets are received then the batch is published before
+- if more than `kafka.batch.maxSize` tweets are received then the batch is published before
   the `kafka.batch.maxIntervalMs` elapses.
-- if less than `kafka.batch.maxsize` tweets are received before the `kafka.batch.maxIntervalMs`
+- if less than `kafka.batch.maxSize` tweets are received before the `kafka.batch.maxIntervalMs`
   elapses, then the batch is published with fewer tweets.
 
 See
@@ -186,7 +227,7 @@ Adam Crowther - [@adamcc_ch](https://twitter.com/adamcc_ch) - github@adamcc.ch
 - LinkedIn: https://www.linkedin.com/in/adam-crowther-5a51564/
 - Freelance.de: https://www.freelance.de/Freiberufler/246224-Tech-Lead-Software-Engineer
 - Project
-  Link: [https://github.com/adam.crowther/kafka-connect-twitter-api-v2](https://github.com/adam.crowther/kafka-connect-twitter-api-v2)
+  Link: [https://github.com/adam-crowther/kafka-connect-source-twitter-api-v2](https://github.com/adam-crowther/kafka-connect-source-twitter-api-v2)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -212,25 +253,25 @@ Adam Crowther - [@adamcc_ch](https://twitter.com/adamcc_ch) - github@adamcc.ch
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/adam.crowther/kafka-connect-twitter-api-v2.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/adam-crowther/kafka-connect-source-twitter-api-v2.svg?style=for-the-badge
 
-[contributors-url]: https://github.com/adam.crowther/kafka-connect-twitter-api-v2/graphs/contributors
+[contributors-url]: https://github.com/adam-crowther/kafka-connect-source-twitter-api-v2/graphs/contributors
 
-[forks-shield]: https://img.shields.io/github/forks/adam.crowther/kafka-connect-twitter-api-v2.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/adam-crowther/kafka-connect-source-twitter-api-v2.svg?style=for-the-badge
 
-[forks-url]: https://github.com/adam.crowther/kafka-connect-twitter-api-v2/network/members
+[forks-url]: https://github.com/adam-crowther/kafka-connect-source-twitter-api-v2/network/members
 
-[stars-shield]: https://img.shields.io/github/stars/adam.crowther/kafka-connect-twitter-api-v2.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/adam-crowther/kafka-connect-source-twitter-api-v2.svg?style=for-the-badge
 
-[stars-url]: https://github.com/adam.crowther/kafka-connect-twitter-api-v2/stargazers
+[stars-url]: https://github.com/adam-crowther/kafka-connect-source-twitter-api-v2/stargazers
 
-[issues-shield]: https://img.shields.io/github/issues/adam.crowther/kafka-connect-twitter-api-v2.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/adam-crowther/kafka-connect-source-twitter-api-v2.svg?style=for-the-badge
 
-[issues-url]: https://github.com/adam.crowther/kafka-connect-twitter-api-v2/issues
+[issues-url]: https://github.com/adam-crowther/kafka-connect-source-twitter-api-v2/issues
 
-[license-shield]: https://img.shields.io/github/license/adam.crowther/kafka-connect-twitter-api-v2.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/adam-crowther/kafka-connect-source-twitter-api-v2.svg?style=for-the-badge
 
-[license-url]: https://github.com/adam.crowther/kafka-connect-twitter-api-v2/blob/master/LICENSE.txt
+[license-url]: https://github.com/adam-crowther/kafka-connect-source-twitter-api-v2/blob/master/LICENSE.txt
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 
