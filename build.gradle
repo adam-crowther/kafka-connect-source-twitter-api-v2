@@ -24,6 +24,11 @@ ext {
     awaitilityVersion = "4.2.0"
 }
 
+compileJava {
+    sourceCompatibility = 11
+    targetCompatibility = 11
+}
+
 dependencies {
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
