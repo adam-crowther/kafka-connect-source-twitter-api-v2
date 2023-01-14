@@ -38,6 +38,13 @@ V1, and the PR on that project by [Arek Burdach](https://github.com/arkadius), w
 here: https://github.com/jcustenborder/kafka-connect-twitter/pull/35. The V1 API now requires
 "Elevated" access, which unfortunately renders Jeremy's connector obsolete.
 
+The connector is available as a Docker image
+here: https://hub.docker.com/r/adamcc/kafka-connect-source-twitter-api-v2, or using `docker pull`.
+
+```sh
+docker pull adamcc/kafka-connect-source-twitter-api-v2
+```
+
 If you use and like this connector, please consider giving this project a star :smile:.
 
 ### Built With

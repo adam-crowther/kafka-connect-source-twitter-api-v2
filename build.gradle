@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'java-library'
+    id 'maven-publish'
 }
 
 repositories {
@@ -72,6 +73,25 @@ tasks.register('dist', Zip) {
         into 'bin'
     }
     from('sdk.properties')
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact source: dist, extension: 'zip'
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/adam-crowther/kafka-connect-source-twitter-api-v2"
+            credentials {
+                username = project.property "github.actor"
+                password = project.property "github.token"
+            }
+        }
+    }
 }
 
 build {
