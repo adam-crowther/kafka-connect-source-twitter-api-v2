@@ -121,8 +121,8 @@ class file has wrong version 55.0, should be 52.0
    twitter.filterKeywords=java,javascript,typescript,scala,python,ruby,kafka,docker,kubernetes,springboot
    twitter.tweetFields=id,text,author_id,created_at,conversation_id,lang,source
    twitter.retries=10
-   kafka.tweetsTopic=twitter-tweets
-   #kafka.tweetsTopic=demo-3-twitter
+   topic=twitter-tweets
+   #topic=demo-3-twitter
    kafka.batch.maxSize=10
    kafka.batch.maxIntervalMs=1000
    ```
@@ -169,8 +169,8 @@ class file has wrong version 55.0, should be 52.0
         twitter.filterKeywords=java,javascript,typescript,scala,python,ruby,kafka,docker,kubernetes,springboot
         twitter.tweetFields=id,text,author_id,created_at,conversation_id,lang,source
         twitter.retries=10
-        kafka.tweetsTopic=twitter-tweets
-        #kafka.tweetsTopic=demo-3-twitter
+        topic=twitter-tweets
+        #topic=demo-3-twitter
         kafka.batch.maxSize=10
         kafka.batch.maxIntervalMs=1000
        ```
@@ -192,7 +192,7 @@ You should see Tweets start streaming in to your topic.
 | twitter.filterKeywords    | Comma delimited list of Twitter keywords to filter for. The twitter API active filter will be creates with the keywords in the same order. | list    |                | java, javascript, typescript, scala, python, ruby, kafka, docker, kubernetes, springboot | high       |
 | twitter.tweetFields       | Comma delimited list of fields that will be returned. The order does not matter.                                                           | list    |                | id, text, author_id, created_at, conversation_id, lang, source                           | high       |
 | twitter.retries           | The number of times to retry when the Twitter API call fails.                                                                              | integer | 10             |                                                                                          | low        |
-| kafka.tweetsTopic         | Kafka topic for output.                                                                                                                    | string  | twitter-tweets |                                                                                          | low        |
+| topic                     | Kafka topic for output.                                                                                                                    | string  | twitter-tweets |                                                                                          | low        |
 | kafka.batch.maxSize       | The maximum number of records to return in a single batch.                                                                                 | integer | 100            |                                                                                          | low        |
 | kafka.batch.maxIntervalMs | The maximum interval in milliseconds between batches, if the maximum batch size was not yet reached.                                       | integer | 1000           |                                                                                          | low        |
 
