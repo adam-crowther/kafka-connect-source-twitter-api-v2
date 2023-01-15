@@ -106,7 +106,7 @@ class TwitterV2SourceConnectorConfigTest {
               assertThrows(ConfigException.class, () -> new TwitterV2SourceConnectorConfig(settingsMap));
         // then:
         assertThat(configException.getMessage(),
-                   is("Invalid value  for configuration kafka.tweetsTopic: String must be non-empty"));
+                   is("Invalid value  for configuration topic: String must be non-empty"));
     }
 
     @Test

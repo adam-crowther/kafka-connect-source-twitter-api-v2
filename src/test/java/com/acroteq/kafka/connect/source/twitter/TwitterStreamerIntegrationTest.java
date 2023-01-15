@@ -45,7 +45,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/** @author <a href="mailto:github@adamcc.ch">Adam Crowther</a> */
+/**
+ * In an environment with a continuous integration build (ie Jenkins or similar) we would set up a WireMock and test
+ * against that.  We would not want a dependency on a third-party REST API over the internet.
+ *
+ * @author <a href="mailto:github@adamcc.ch">Adam Crowther</a>
+ */
 @Slf4j
 class TwitterStreamerIntegrationTest {
 

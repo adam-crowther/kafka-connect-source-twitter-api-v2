@@ -79,7 +79,7 @@ public class TwitterV2SourceConnectorConfig extends AbstractConfig {
     public static final int TWITTER_RETRIES_DEFAULT = 10;
     public static final Range TWITTER_RETRIES_VALIDATOR = between(1, 50);
 
-    public static final String KAFKA_TWEETS_TOPIC_CONF = "kafka.tweetsTopic";
+    public static final String KAFKA_TWEETS_TOPIC_CONF = "topic";
     private static final String KAFKA_TWEETS_TOPIC_DOC = "Kafka topic for output. Default 'twitter-tweets'.";
 
     static final String KAFKA_TWEETS_TOPIC_DEFAULT = "twitter-tweets";
